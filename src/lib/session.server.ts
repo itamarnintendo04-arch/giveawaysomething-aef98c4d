@@ -47,7 +47,7 @@ export async function readSession(token: string | undefined): Promise<DiscordUse
 
 export function getCookieFrom(request: Request, name: string) {
   const m = (request.headers.get("cookie") ?? "").match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return m ? decodeURIComponent(m[1]) : undefined;
+  return m?.[1] ? decodeURIComponent(m[1]) : undefined;
 }
 
 export function cookie(name: string, value: string, maxAge: number) {
