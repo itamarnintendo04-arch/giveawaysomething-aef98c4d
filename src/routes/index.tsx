@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getMe, type Me } from "@/lib/auth.functions";
 import { useState, type ReactNode } from "react";
+import brandImage from "@/assets/giveawaysomething-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -51,14 +52,14 @@ function Login() {
   return (
     <div className="min-h-screen">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
-        <span className="font-display text-lg font-bold">🎁 GiveawaySomething</span>
+        <span className="flex min-w-0 items-center gap-2 font-display text-sm font-bold sm:text-lg"><img src={brandImage.url} alt="" className="h-9 w-9 shrink-0 rounded-md object-contain" /> GiveawaySomething</span>
         <a href="/api/public/auth/login" className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow transition hover:brightness-110">
           <DiscordIcon className="h-4 w-4" /> Login
         </a>
       </nav>
       <main className="mx-auto max-w-5xl px-5 pb-20">
         <section className="flex flex-col items-center py-16 text-center">
-          <div className="glass mb-8 flex h-20 w-20 items-center justify-center rounded-2xl shadow-glow text-4xl">🎁</div>
+          <img src={brandImage.url} alt="GiveawaySomething — colorful gift box" width={268} height={268} className="mb-8 h-40 w-40 rounded-xl object-contain shadow-glow sm:h-48 sm:w-48" />
           <h1 className="text-gradient font-display text-5xl font-black tracking-tight sm:text-7xl">GiveawaySomething</h1>
           <p className="mt-5 max-w-md text-lg text-muted-foreground">The ultimate giveaway & quick-drop bot for your Discord server.</p>
           <a href="/api/public/auth/login" className="mt-10 inline-flex items-center gap-3 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:brightness-110">
@@ -119,9 +120,12 @@ function Dashboard({ me }: { me: Me }) {
   return (
     <div className="mx-auto min-h-screen max-w-5xl px-4 py-6 sm:px-6">
       <header className="glass flex items-center justify-between rounded-xl px-5 py-4">
-        <div>
+        <div className="flex min-w-0 items-center gap-3">
+          <img src={brandImage.url} alt="GiveawaySomething" className="h-10 w-10 shrink-0 rounded-md object-contain" />
+          <div className="min-w-0">
           <p className="text-xs text-muted-foreground">GiveawaySomething</p>
           <h2 className="font-display text-lg font-bold">Welcome, {me.displayName}!</h2>
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <a href="/api/public/auth/logout" className="rounded-xl border border-border bg-secondary px-4 py-2 text-sm font-medium transition hover:border-destructive hover:bg-destructive hover:text-destructive-foreground">
