@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { getMe, type Me } from "@/lib/auth.functions";
 import { useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => getMe(),
   component: Index,
 });
 
@@ -38,26 +40,69 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-function Login({ onLogin }: { onLogin: () => void }) {
+const FEATURES = [
+  { icon: "🎉", title: "Timed giveaways", text: "Set a prize, duration and winner count. The bot picks winners fairly and automatically." },
+  { icon: "⚡", title: "Quick drops", text: "First to react wins. Perfect for keeping chat hyped and active." },
+  { icon: "🛡️", title: "Fair & transparent", text: "Random, unbiased winner selection your community can trust." },
+  { icon: "🎛️", title: "Easy dashboard", text: "Launch everything from here — no commands to memorize." },
+];
+
+function Login() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <div className="glass mb-8 flex h-20 w-20 items-center justify-center rounded-2xl shadow-glow text-4xl">🎁</div>
-      <h1 className="text-gradient font-display text-5xl font-black tracking-tight sm:text-7xl">GiveawaySomething</h1>
-      <p className="mt-5 max-w-md text-lg text-muted-foreground">
-        The ultimate giveaway & quick-drop bot for your Discord server.
-      </p>
-      <button
-        onClick={onLogin}
-        className="mt-10 inline-flex items-center gap-3 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:brightness-110 active:translate-y-0"
-      >
-        <DiscordIcon className="h-6 w-6" />
-        Login with Discord
-      </button>
-    </main>
+    <div className="min-h-screen">
+      <nav className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
+        <span className="font-display text-lg font-bold">🎁 GiveawaySomething</span>
+        <a href="/api/public/auth/login" className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow transition hover:brightness-110">
+          <DiscordIcon className="h-4 w-4" /> Login
+        </a>
+      </nav>
+      <main className="mx-auto max-w-5xl px-5 pb-20">
+        <section className="flex flex-col items-center py-16 text-center">
+          <div className="glass mb-8 flex h-20 w-20 items-center justify-center rounded-2xl shadow-glow text-4xl">🎁</div>
+          <h1 className="text-gradient font-display text-5xl font-black tracking-tight sm:text-7xl">GiveawaySomething</h1>
+          <p className="mt-5 max-w-md text-lg text-muted-foreground">The ultimate giveaway & quick-drop bot for your Discord server.</p>
+          <a href="/api/public/auth/login" className="mt-10 inline-flex items-center gap-3 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:brightness-110">
+            <DiscordIcon className="h-6 w-6" /> Login with Discord
+          </a>
+        </section>
+
+        <section className="glass rounded-xl p-6 sm:p-8">
+          <h2 className="font-display text-2xl font-bold">What is GiveawaySomething?</h2>
+          <p className="mt-3 text-muted-foreground">
+            GiveawaySomething is a Discord bot that runs giveaways and instant prize drops in your server. Reward your members,
+            grow engagement and celebrate milestones — all in a few clicks.
+          </p>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="mb-5 text-center font-display text-2xl font-bold">Why use it?</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {FEATURES.map((f) => (
+              <div key={f.title} className="glass rounded-xl p-5 transition hover:-translate-y-1 hover:border-primary/50">
+                <div className="text-2xl">{f.icon}</div>
+                <h3 className="mt-2 font-semibold">{f.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{f.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="glass mt-10 rounded-xl p-6 text-center sm:p-8">
+          <h2 className="font-display text-2xl font-bold">✅ A bot you can trust</h2>
+          <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
+            GiveawaySomething is listed and reviewed on the biggest Discord bot directories, so you know it's safe to add to your server.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <a href="https://top.gg" target="_blank" rel="noreferrer" className="rounded-xl border border-border bg-secondary px-5 py-3 font-semibold transition hover:border-primary hover:bg-accent">Listed on Top.gg</a>
+            <a href="https://discordbotlist.com" target="_blank" rel="noreferrer" className="rounded-xl border border-border bg-secondary px-5 py-3 font-semibold transition hover:border-primary hover:bg-accent">Listed on Discord Bot List</a>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
 
-function Dashboard({ onLogout }: { onLogout: () => void }) {
+function Dashboard({ me }: { me: Me }) {
   const [server, setServer] = useState(SERVERS[0]);
   const [channel, setChannel] = useState(CHANNELS[0]);
   const [gPrize, setGPrize] = useState("");
@@ -74,21 +119,18 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   return (
     <div className="mx-auto min-h-screen max-w-5xl px-4 py-6 sm:px-6">
       <header className="glass flex items-center justify-between rounded-xl px-5 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <DiscordIcon className="h-5 w-5" />
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">GiveawaySomething</p>
-            <h2 className="font-display text-lg font-bold">Welcome, Admin!</h2>
-          </div>
+        <div>
+          <p className="text-xs text-muted-foreground">GiveawaySomething</p>
+          <h2 className="font-display text-lg font-bold">Welcome, {me.displayName}!</h2>
         </div>
-        <button
-          onClick={onLogout}
-          className="rounded-xl border border-border bg-secondary px-4 py-2 text-sm font-medium transition hover:border-destructive hover:bg-destructive hover:text-destructive-foreground"
-        >
-          Logout
-        </button>
+        <div className="flex items-center gap-3">
+          <a href="/api/public/auth/logout" className="rounded-xl border border-border bg-secondary px-4 py-2 text-sm font-medium transition hover:border-destructive hover:bg-destructive hover:text-destructive-foreground">
+            Logout
+          </a>
+          <Link to="/profile" aria-label="Your profile" className="rounded-full ring-2 ring-primary transition hover:scale-105 hover:shadow-glow">
+            <img src={me.avatarUrl} alt="" className="h-10 w-10 rounded-full" />
+          </Link>
+        </div>
       </header>
 
       <section className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -144,6 +186,6 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 }
 
 function Index() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  return loggedIn ? <Dashboard onLogout={() => setLoggedIn(false)} /> : <Login onLogin={() => setLoggedIn(true)} />;
+  const me = Route.useLoaderData();
+  return me ? <Dashboard me={me} /> : <Login />;
 }
