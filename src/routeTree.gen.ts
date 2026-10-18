@@ -10,33 +10,89 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ApiPublicAuthCallbackRouteImport } from './routes/api/public/auth/callback'
+import { Route as ApiPublicAuthLoginRouteImport } from './routes/api/public/auth/login'
+import { Route as ApiPublicAuthLogoutRouteImport } from './routes/api/public/auth/logout'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthCallbackRoute = ApiPublicAuthCallbackRouteImport.update({
+  id: '/api/public/auth/callback',
+  path: '/api/public/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthLoginRoute = ApiPublicAuthLoginRouteImport.update({
+  id: '/api/public/auth/login',
+  path: '/api/public/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthLogoutRoute = ApiPublicAuthLogoutRouteImport.update({
+  id: '/api/public/auth/logout',
+  path: '/api/public/auth/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/api/public/auth/callback': typeof ApiPublicAuthCallbackRoute
+  '/api/public/auth/login': typeof ApiPublicAuthLoginRoute
+  '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/api/public/auth/callback': typeof ApiPublicAuthCallbackRoute
+  '/api/public/auth/login': typeof ApiPublicAuthLoginRoute
+  '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/api/public/auth/callback': typeof ApiPublicAuthCallbackRoute
+  '/api/public/auth/login': typeof ApiPublicAuthLoginRoute
+  '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/profile'
+    | '/api/public/auth/callback'
+    | '/api/public/auth/login'
+    | '/api/public/auth/logout'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/profile'
+    | '/api/public/auth/callback'
+    | '/api/public/auth/login'
+    | '/api/public/auth/logout'
+  id:
+    | '__root__'
+    | '/'
+    | '/profile'
+    | '/api/public/auth/callback'
+    | '/api/public/auth/login'
+    | '/api/public/auth/logout'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProfileRoute: typeof ProfileRoute
+  ApiPublicAuthCallbackRoute: typeof ApiPublicAuthCallbackRoute
+  ApiPublicAuthLoginRoute: typeof ApiPublicAuthLoginRoute
+  ApiPublicAuthLogoutRoute: typeof ApiPublicAuthLogoutRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +104,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/callback': {
+      id: '/api/public/auth/callback'
+      path: '/api/public/auth/callback'
+      fullPath: '/api/public/auth/callback'
+      preLoaderRoute: typeof ApiPublicAuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/login': {
+      id: '/api/public/auth/login'
+      path: '/api/public/auth/login'
+      fullPath: '/api/public/auth/login'
+      preLoaderRoute: typeof ApiPublicAuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/logout': {
+      id: '/api/public/auth/logout'
+      path: '/api/public/auth/logout'
+      fullPath: '/api/public/auth/logout'
+      preLoaderRoute: typeof ApiPublicAuthLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProfileRoute: ProfileRoute,
+  ApiPublicAuthCallbackRoute: ApiPublicAuthCallbackRoute,
+  ApiPublicAuthLoginRoute: ApiPublicAuthLoginRoute,
+  ApiPublicAuthLogoutRoute: ApiPublicAuthLogoutRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
