@@ -14,7 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      discord_oauth_connections: {
+        Row: {
+          discord_user_id: string
+          encrypted_tokens: string
+          id: string
+          session_expires_at: string
+          token_expires_at: string
+        }
+        Insert: {
+          discord_user_id: string
+          encrypted_tokens: string
+          id?: string
+          session_expires_at?: string
+          token_expires_at: string
+        }
+        Update: {
+          discord_user_id?: string
+          encrypted_tokens?: string
+          id?: string
+          session_expires_at?: string
+          token_expires_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
