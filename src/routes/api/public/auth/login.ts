@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { cookie, STATE_COOKIE } from "@/lib/session.server";
 
 export const Route = createFileRoute("/api/public/auth/login")({
   server: {
     handlers: {
       GET: async ({ request }) => {
+        const { cookie, STATE_COOKIE } = await import("@/lib/session.server");
         const origin = new URL(request.url).origin;
         const state = crypto.randomUUID();
         const params = new URLSearchParams({
