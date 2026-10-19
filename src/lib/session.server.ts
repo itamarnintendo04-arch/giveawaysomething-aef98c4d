@@ -3,6 +3,7 @@ export type DiscordUser = {
   username: string;
   global_name: string | null;
   avatar: string | null;
+  connectionId?: string;
 };
 
 export const SESSION_COOKIE = "gs_session";
@@ -38,8 +39,8 @@ export async function readSession(token: string | undefined): Promise<DiscordUse
   if (!payload || !sig || (await sign(payload)) !== sig) return null;
   try {
     const data = JSON.parse(new TextDecoder().decode(fromB64url(payload)));
-    if (data.exp < Date.now()) return null;
-    return { id: data.id, username: data.username, global_name: data.global_name, avatar: data.avatar };
+    if (typeof data.exp !== "number" || data.exp < Date.now() || typeof data.id !== "string" || typeof data.username !== "string") return null;
+    return { id: data.id, username: data.username, global_name: data.global_name, avatar: data.avatar, connectionId: typeof data.connectionId === "string" ? data.connectionId : undefined };
   } catch {
     return null;
   }
