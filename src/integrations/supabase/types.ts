@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      discord_feedback: {
+        Row: {
+          category: string
+          created_at: string
+          discord_user_id: string
+          id: string
+          message: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          discord_user_id: string
+          id?: string
+          message: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          discord_user_id?: string
+          id?: string
+          message?: string
+        }
+        Relationships: []
+      }
       discord_oauth_connections: {
         Row: {
           discord_user_id: string
@@ -35,6 +59,24 @@ export type Database = {
           id?: string
           session_expires_at?: string
           token_expires_at?: string
+        }
+        Relationships: []
+      }
+      discord_onboarding: {
+        Row: {
+          bot_already_installed: boolean
+          completed_at: string
+          discord_user_id: string
+        }
+        Insert: {
+          bot_already_installed: boolean
+          completed_at?: string
+          discord_user_id: string
+        }
+        Update: {
+          bot_already_installed?: boolean
+          completed_at?: string
+          discord_user_id?: string
         }
         Relationships: []
       }
