@@ -14,3 +14,4 @@ Brand imagery uses an imported CDN asset pointer, while the browser favicon is a
 - Discord remains the account authority; authenticate every Discord data request with the signed HttpOnly session and verify guild management and effective channel permissions server-side, because browser-selected IDs are untrusted.
 - Store encrypted Discord OAuth credentials in a service-role-only Cloud table referenced by the signed session; never expose provider tokens to the browser.
 - Existing bot source/API is required before implementing giveaway/drop management, because Discord messages do not reliably expose the bot's internal participation and lifecycle state.
+- Persist onboarding and feedback by verified Discord identity in server-only Cloud tables; authenticated server functions enforce ownership because Discord accounts are not Cloud Auth users.
