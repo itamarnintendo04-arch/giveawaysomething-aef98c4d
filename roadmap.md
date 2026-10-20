@@ -1,4 +1,8 @@
 # Tasks
+- [x] Add bot invitation for servers where it is absent and first-login onboarding persisted per Discord account.
+- [x] Add stored Feedback for feature suggestions, bugs, bot issues and user experience, with owner-scoped recent submissions.
+- [x] Test invitation/feedback rules (17 tests pass) and verify signed-out rejection of all four community functions.
+- [ ] Verify first-login question, invitation and submitted feedback read-back in a real Discord session — blocked on an active Discord login.
 - [x] Implement real Discord servers and available channels with server-side authorization.
 - [x] Replace simulated launch confirmations with honest connection states.
 - [ ] Connect creation, active giveaway/drop lists, details, counts, ending and participant removal — blocked on the user's existing bot source code.

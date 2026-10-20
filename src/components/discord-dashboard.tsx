@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { getDiscordChannels, getDiscordGuilds } from "@/lib/discord.functions";
 import type { Me } from "@/lib/auth.functions";
 import brandImage from "@/assets/giveawaysomething-logo.png.asset.json";
+import { CommunityControls } from "@/components/community-controls";
 
 type Guild = Awaited<ReturnType<typeof getDiscordGuilds>>[number];
 const selectClass = "w-full rounded-xl border border-border bg-input px-4 py-3 text-foreground outline-none focus:ring-2 focus:ring-primary disabled:opacity-50";
@@ -29,7 +30,7 @@ export function DiscordDashboard({ me, initialGuilds, connectionError }: { me: M
     <main className="mx-auto min-h-screen max-w-5xl px-4 py-6 sm:px-6">
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
         <div className="flex min-w-0 items-center gap-3"><img src={brandImage.url} alt="" className="h-12 w-12 shrink-0 object-contain" /><div className="min-w-0"><h1 className="break-words font-display text-xl font-bold sm:text-2xl">GiveawaySomething</h1><p className="text-sm text-muted-foreground">Welcome, {me.displayName}</p></div></div>
-        <div className="flex items-center gap-3"><Button asChild variant="ghost"><a href="/api/public/auth/logout"><LogOut />Logout</a></Button><Link to="/profile" aria-label="Your profile"><img src={me.avatarUrl} alt="" className="h-10 w-10 rounded-full ring-2 ring-primary" /></Link></div>
+        <div className="flex flex-wrap items-center gap-3"><CommunityControls userId={me.id} guildId={selected?.manageable ? guildId : ""} missingBot={Boolean(selected?.manageable && !selected.botInstalled)} /><Button asChild variant="ghost"><a href="/api/public/auth/logout"><LogOut />Logout</a></Button><Link to="/profile" aria-label="Your profile"><img src={me.avatarUrl} alt="" className="h-10 w-10 rounded-full ring-2 ring-primary" /></Link></div>
       </header>
       {error && <div role="alert" className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-warning/40 bg-warning/10 p-4"><p className="text-sm">{error}</p><Button asChild><a href="/api/public/auth/login">Reconnect Discord</a></Button></div>}
       <section className="grid gap-5 py-7 sm:grid-cols-2">
