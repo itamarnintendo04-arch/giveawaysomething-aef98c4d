@@ -20,7 +20,8 @@ export function DiscordDashboard({ me, initialGuilds, connectionError }: { me: M
   const fetchGuilds = useServerFn(getDiscordGuilds);
   const fetchChannels = useServerFn(getDiscordChannels);
   const guilds = useQuery({ queryKey: ["discord-guilds", me.id], queryFn: () => fetchGuilds(), initialData: connectionError ? undefined : initialGuilds, enabled: false });
-  const selected = (guilds.data ?? initialGuilds).find((guild) => guild.id === guildId);
+  const managedGuilds = (guilds.data ?? initialGuilds).filter((guild) => guild.manageable);
+  const selected = managedGuilds.find((guild) => guild.id === guildId);
   const channels = useQuery({ queryKey: ["discord-channels", me.id, guildId], queryFn: () => fetchChannels({ data: { guildId } }), enabled: Boolean(selected?.manageable && selected.botInstalled), retry: false });
   const availableChannels = channels.data ?? [];
   const currentChannel = availableChannels.find((channel) => channel.id === channelId)?.id ?? availableChannels[0]?.id ?? "";
@@ -34,7 +35,7 @@ export function DiscordDashboard({ me, initialGuilds, connectionError }: { me: M
       </header>
       {error && <div role="alert" className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-warning/40 bg-warning/10 p-4"><p className="text-sm">{error}</p><Button asChild><a href="/api/public/auth/login">Reconnect Discord</a></Button></div>}
       <section className="grid gap-5 py-7 sm:grid-cols-2">
-        <label className="space-y-2"><span className="text-xs font-semibold uppercase text-muted-foreground">Server</span><select aria-label="Select server" className={selectClass} value={guildId} onChange={(event) => { setGuildId(event.target.value); setChannelId(""); setCreating(false); }}><option value="">Select a server</option>{(guilds.data ?? initialGuilds).map((guild) => <option key={guild.id} value={guild.id}>{guild.name}{!guild.botInstalled ? " · Bot not installed" : !guild.manageable ? " · No management permission" : ""}</option>)}</select></label>
+        <label className="space-y-2"><span className="text-xs font-semibold uppercase text-muted-foreground">Server</span><select aria-label="Select server" className={selectClass} value={selected?.id ?? ""} onChange={(event) => { setGuildId(event.target.value); setChannelId(""); setCreating(false); }}><option value="">Select a server</option>{managedGuilds.map((guild) => <option key={guild.id} value={guild.id}>{guild.name}{!guild.botInstalled ? " · Bot not installed" : ""}</option>)}</select></label>
         <label className="space-y-2"><span className="text-xs font-semibold uppercase text-muted-foreground">Channel</span><select aria-label="Select channel" className={selectClass} value={currentChannel} disabled={!availableChannels.length || channels.isFetching} onChange={(event) => setChannelId(event.target.value)}><option value="">{channels.isFetching ? "Loading channels…" : "Select a channel"}</option>{availableChannels.map((channel) => <option key={channel.id} value={channel.id}>#{channel.name}</option>)}</select></label>
       </section>
       {selected && (!selected.manageable || !selected.botInstalled) && <p role="status" className="mb-6 flex items-center gap-2 text-sm text-warning"><ShieldAlert className="h-4 w-4 shrink-0" />{!selected.manageable ? "You need Manage Server permission in this server." : "GiveawaySomething must be added to this server first."}</p>}

@@ -1,7 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { canManageGuild, channelPermissions } from "@/lib/discord-permissions";
+import { canManageGuild, manageableGuilds, channelPermissions } from "@/lib/discord-permissions";
 
 describe("Discord management authorization", () => {
+  it("lists only owned, Administrator or Manage Server guilds, including those without the bot", () => {
+    expect(manageableGuilds([
+      { id: "owner", owner: true, permissions: "0", botInstalled: false },
+      { id: "admin", permissions: "8", botInstalled: true },
+      { id: "manager", permissions: "32", botInstalled: false },
+      { id: "member", permissions: "1024", botInstalled: true },
+      { id: "moderator", permissions: "16", botInstalled: true },
+      { id: "unknown" },
+    ]).map((guild) => guild.id)).toEqual(["owner", "admin", "manager"]);
+  });
   it("allows the guild owner", () => expect(canManageGuild({ owner: true, permissions: "0" })).toBe(true));
   it("allows Manage Server", () => expect(canManageGuild({ permissions: "32" })).toBe(true));
   it("allows Administrator", () => expect(canManageGuild({ permissions: "8" })).toBe(true));
