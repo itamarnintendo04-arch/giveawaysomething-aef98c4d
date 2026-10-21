@@ -4,6 +4,10 @@ export function canManageGuild(guild: GuildAccess) {
   return Boolean(guild.owner) || (permissions & 8n) !== 0n || (permissions & 32n) !== 0n;
 }
 
+export function manageableGuilds<T extends GuildAccess>(guilds: T[]): T[] {
+  return guilds.filter(canManageGuild);
+}
+
 export type PermissionRole = { id: string; permissions: string };
 export type PermissionOverwrite = { id: string; type: number; allow: string; deny: string };
 export function channelPermissions(guildId: string, memberId: string, roleIds: string[], roles: PermissionRole[], overwrites: PermissionOverwrite[]) {

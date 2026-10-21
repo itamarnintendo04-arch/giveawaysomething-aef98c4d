@@ -1,5 +1,5 @@
 import { getCookieFrom, readSession, SESSION_COOKIE, type DiscordUser } from "./session.server";
-import { canManageGuild, channelPermissions, type PermissionRole, type PermissionOverwrite } from "./discord-permissions";
+import { canManageGuild, manageableGuilds, channelPermissions, type PermissionRole, type PermissionOverwrite } from "./discord-permissions";
 
 type Tokens = { access_token: string; refresh_token: string; expires_in: number };
 type Guild = { id: string; name: string; icon: string | null; owner?: boolean; permissions?: string };
@@ -78,7 +78,7 @@ async function allGuilds(authorization: string) {
 export async function listGuilds(user: DiscordUser) {
   const [guilds, botGuilds] = await Promise.all([allGuilds(`Bearer ${await accessToken(user)}`), allGuilds(botAuthorization())]);
   const installed = new Set(botGuilds.map((guild) => guild.id));
-  return guilds.map((guild) => ({ id: guild.id, name: guild.name, iconUrl: guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` : null, manageable: canManageGuild(guild), botInstalled: installed.has(guild.id) })).sort((a, b) => a.name.localeCompare(b.name));
+  return manageableGuilds(guilds).map((guild) => ({ id: guild.id, name: guild.name, iconUrl: guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` : null, manageable: true, botInstalled: installed.has(guild.id) })).sort((a, b) => a.name.localeCompare(b.name));
 }
 export async function listChannels(user: DiscordUser, guildId: string) {
   const guilds = await allGuilds(`Bearer ${await accessToken(user)}`);
