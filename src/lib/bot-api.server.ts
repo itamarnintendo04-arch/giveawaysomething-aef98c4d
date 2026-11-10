@@ -30,7 +30,7 @@ export async function requestBot<T>(
         "X-Dashboard-Nonce": nonce,
         "X-Dashboard-Signature": signature,
       },
-      body: method === "POST" ? serializedBody : undefined,
+      body: method === "POST" ? serializedBody : null,
       cache: "no-store",
       signal: AbortSignal.timeout(20_000),
     });
