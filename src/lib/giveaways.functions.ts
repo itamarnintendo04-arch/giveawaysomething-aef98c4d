@@ -20,7 +20,7 @@ export const getBotState = createServerFn({ method: "GET" })
     const { requestBot } = await import("./bot-api.server");
     const user = await requireDiscordUser(getRequest());
     await requireManageableGuild(user, guildId);
-    return requestBot(process.env["DISCORD_BOT_API_URL"], process.env["DISCORD_BOT_TOKEN"], `/api/dashboard/state?guild_id=${guildId}`, "GET", null, botStateSchema);
+    return requestBot(process.env["DISCORD_BOT_API_URL"], process.env["DISCORD_BOT_TOKEN"], `/api/dashboard/state?guild_id=${guildId}&host_id=${user.id}`, "GET", null, botStateSchema);
   });
 
 export const createGiveaway = createServerFn({ method: "POST" })
