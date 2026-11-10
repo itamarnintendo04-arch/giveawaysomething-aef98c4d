@@ -6,7 +6,7 @@ describe("Invitations and feedback", () => {
     expect(url.origin).toBe("https://discord.com");
     expect(url.searchParams.get("guild_id")).toBe("234567890123456789");
     expect(url.searchParams.get("scope")).toBe("bot applications.commands");
-    expect(url.searchParams.get("permissions")).toBe("84928");
+    expect(url.searchParams.get("permissions")).toBe("84992");
   });
   it("creates a server-choice invitation without a selected server", () => expect(new URL(botInviteUrl("123456789012345678") ?? "https://invalid.local").searchParams.has("guild_id")).toBe(false));
   it("rejects an unconfigured application", () => expect(botInviteUrl("")).toBeNull());
