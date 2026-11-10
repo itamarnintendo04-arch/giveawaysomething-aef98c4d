@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Gift, Zap, Plus, RefreshCw, LogOut, ShieldAlert, Hash } from "lucide-react";
+import { Gift, Zap, Plus, RefreshCw, LogOut, ShieldAlert } from "lucide-react";
+import { GiveawayManager } from "@/components/giveaway-manager";
 import { Button } from "@/components/ui/button";
 import { getDiscordChannels, getDiscordGuilds } from "@/lib/discord.functions";
 import type { Me } from "@/lib/auth.functions";
@@ -42,7 +43,7 @@ export function DiscordDashboard({ me, initialGuilds, connectionError }: { me: M
       {channels.error && <p role="alert" className="mb-6 text-sm text-destructive">{channels.error.message}</p>}
       {selected?.manageable && selected.botInstalled && channels.isSuccess && !availableChannels.length && <p role="status" className="mb-6 text-sm text-warning">No accessible channels. The bot needs View Channel, Send Messages, Embed Links, Read Message History and Add Reactions.</p>}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4"><div className="flex gap-2"><Button variant={tab === "giveaways" ? "secondary" : "ghost"} onClick={() => { setTab("giveaways"); setCreating(false); }}><Gift />Giveaways</Button><Button variant={tab === "drops" ? "secondary" : "ghost"} onClick={() => { setTab("drops"); setCreating(false); }}><Zap />Drops</Button></div><div className="flex gap-2"><Button variant="outline" size="icon" title="Refresh servers and channels" aria-label="Refresh servers and channels" disabled={guilds.isFetching || channels.isFetching} onClick={() => { void guilds.refetch(); if (selected?.manageable && selected.botInstalled) void channels.refetch(); }}><RefreshCw /></Button><Button disabled={!currentChannel} onClick={() => setCreating(true)}><Plus />New {tab === "giveaways" ? "giveaway" : "drop"}</Button></div></div>
-      {creating ? <section className="py-8"><h2 className="font-display text-2xl font-bold">New {tab === "giveaways" ? "giveaway" : "drop"}</h2><p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"><Hash className="h-4 w-4" />{availableChannels.find((channel) => channel.id === currentChannel)?.name}</p><div role="status" className="mt-6 border-l-2 border-warning pl-4"><h3 className="font-semibold">Bot connection pending</h3><p className="mt-2 max-w-lg text-sm text-muted-foreground">Creation is unavailable until the existing bot is connected.</p></div><Button className="mt-6" variant="outline" onClick={() => setCreating(false)}>Back to active {tab}</Button></section> : <section className="py-8"><h2 className="font-display text-2xl font-bold">Active {tab}</h2><div role="status" className="flex flex-col items-center gap-3 py-16 text-center">{tab === "giveaways" ? <Gift className="h-10 w-10 text-success" /> : <Zap className="h-10 w-10 text-warning" />}<h3 className="text-lg font-semibold">Bot connection pending</h3><p className="max-w-md text-sm text-muted-foreground">Active {tab} cannot be loaded until the existing bot is connected.</p></div></section>}
+      {selected?.manageable && selected.botInstalled ? <GiveawayManager key={selected.id} guildId={selected.id} channels={availableChannels} channelId={currentChannel} tab={tab} creating={creating} setCreating={setCreating} /> : <section className="glass mt-8 rounded-xl py-16 text-center"><h2 className="font-display text-xl font-semibold">Select a server to begin</h2><p className="mt-2 text-sm text-muted-foreground">Choose a server you manage where GiveawaySomething is installed.</p></section>}
     </main>
   );
 }

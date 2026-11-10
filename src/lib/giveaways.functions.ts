@@ -27,7 +27,7 @@ export const createGiveaway = createServerFn({ method: "POST" })
   .inputValidator(createGiveawaySchema)
   .handler(async ({ data }) => {
     const { requireDiscordUser, listChannels } = await import("./discord.server");
-    const { requestBot, } = await import("./bot-api.server");
+    const { requestBot } = await import("./bot-api.server");
     const user = await requireDiscordUser(getRequest());
     const channels = await listChannels(user, data.guildId);
     if (!channels.some((channel) => channel.id === data.channelId)) throw new Error("Choose a channel where you and the bot have access.");

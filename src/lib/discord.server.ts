@@ -80,10 +80,14 @@ export async function listGuilds(user: DiscordUser) {
   const installed = new Set(botGuilds.map((guild) => guild.id));
   return manageableGuilds(guilds).map((guild) => ({ id: guild.id, name: guild.name, iconUrl: guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` : null, manageable: true, botInstalled: installed.has(guild.id) })).sort((a, b) => a.name.localeCompare(b.name));
 }
-export async function listChannels(user: DiscordUser, guildId: string) {
+export async function requireManageableGuild(user: DiscordUser, guildId: string) {
   const guilds = await allGuilds(`Bearer ${await accessToken(user)}`);
   const guild = guilds.find((entry) => entry.id === guildId);
   if (!guild || !canManageGuild(guild)) throw new Error("You need Manage Server permission to manage giveaways in this server.");
+  return guild;
+}
+export async function listChannels(user: DiscordUser, guildId: string) {
+  const guild = await requireManageableGuild(user, guildId);
   const authorization = botAuthorization();
   const bot = await discord<{ id: string }>("/users/@me", authorization);
   const [channels, roles, userMember, botMember] = await Promise.all([
