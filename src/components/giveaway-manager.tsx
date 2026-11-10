@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Clock, Gift, Hash, Plus, RefreshCw, Trash2, Trophy, UserMinus, Users, X, Zap } from "lucide-react";
+import { Clock, Gift, Hash, Plus, RefreshCw, Trophy, UserMinus, Users, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { createDrop, createGiveaway, endGiveaway, getBotState, removeGiveawayParticipant } from "@/lib/giveaways.functions";
