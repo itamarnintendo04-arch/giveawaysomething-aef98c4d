@@ -10,7 +10,7 @@ export const feedbackSchema = z.object({ category: z.enum(["feature", "bug", "bo
 export const onboardingSchema = z.object({ botAlreadyInstalled: z.boolean() });
 export function botInviteUrl(clientId: string, guildId?: string) {
   if (!/^\d{17,20}$/.test(clientId)) return null;
-  const params = new URLSearchParams({ client_id: clientId, scope: "bot applications.commands", permissions: "84928", integration_type: "0" });
+  const params = new URLSearchParams({ client_id: clientId, scope: "bot applications.commands", permissions: "84992", integration_type: "0" });
   if (guildId && /^\d{17,20}$/.test(guildId)) { params.set("guild_id", guildId); params.set("disable_guild_select", "true"); }
   return `https://discord.com/oauth2/authorize?${params}`;
 }
