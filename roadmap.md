@@ -7,8 +7,9 @@
 - [ ] Verify first-login question, invitation and submitted feedback read-back in a real Discord session — blocked on an active Discord login.
 - [x] Implement real Discord servers and available channels with server-side authorization.
 - [x] Replace simulated launch confirmations with honest connection states.
-- [ ] Add a signed dashboard API to the existing Render bot, using its existing Discord token as an HMAC key without transmitting the token.
-- [ ] Connect dashboard creation, active giveaway/drop lists, details, counts, ending and participant removal to the Render bot.
-- [ ] Supply the updated bot.py for deployment to the user's GitHub/Render service; live end-to-end verification requires the public Render URL and deployment.
+- [x] Add a signed dashboard API to the existing Render bot, using its existing Discord token as an HMAC key without transmitting the token.
+- [x] Connect dashboard creation, active giveaway/drop lists, details, counts, ending and participant removal to the Render bot.
+- [x] Supply the updated bot.py for deployment to the user's GitHub/Render service.
+- [ ] Deploy the updated bot.py, configure DISCORD_BOT_API_URL with the public Render URL, and verify the live flow — blocked on user deployment and the Render URL.
 - [x] Verify authorization tests, public login interface and rejection of invalid OAuth state (7 tests passed).
 - [ ] Verify server/channel selection inside a real Discord account — blocked on an active Discord login; Cloud sessions cannot substitute for Discord OAuth.
