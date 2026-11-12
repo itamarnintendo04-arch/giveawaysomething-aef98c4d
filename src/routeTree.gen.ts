@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
 import { Route as ApiPublicAuthCallbackRouteImport } from './routes/api/public/auth/callback'
 import { Route as ApiPublicAuthLoginRouteImport } from './routes/api/public/auth/login'
 import { Route as ApiPublicAuthLogoutRouteImport } from './routes/api/public/auth/logout'
@@ -20,9 +22,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicAuthCallbackRoute = ApiPublicAuthCallbackRouteImport.update({
@@ -43,14 +55,18 @@ const ApiPublicAuthLogoutRoute = ApiPublicAuthLogoutRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/profile': typeof ProfileRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/api/public/auth/callback': typeof ApiPublicAuthCallbackRoute
   '/api/public/auth/login': typeof ApiPublicAuthLoginRoute
   '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/profile': typeof ProfileRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/api/public/auth/callback': typeof ApiPublicAuthCallbackRoute
   '/api/public/auth/login': typeof ApiPublicAuthLoginRoute
   '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
@@ -58,7 +74,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/profile': typeof ProfileRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/api/public/auth/callback': typeof ApiPublicAuthCallbackRoute
   '/api/public/auth/login': typeof ApiPublicAuthLoginRoute
   '/api/public/auth/logout': typeof ApiPublicAuthLogoutRoute
@@ -67,21 +85,27 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/privacy-policy'
     | '/profile'
+    | '/terms-of-service'
     | '/api/public/auth/callback'
     | '/api/public/auth/login'
     | '/api/public/auth/logout'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/privacy-policy'
     | '/profile'
+    | '/terms-of-service'
     | '/api/public/auth/callback'
     | '/api/public/auth/login'
     | '/api/public/auth/logout'
   id:
     | '__root__'
     | '/'
+    | '/privacy-policy'
     | '/profile'
+    | '/terms-of-service'
     | '/api/public/auth/callback'
     | '/api/public/auth/login'
     | '/api/public/auth/logout'
@@ -89,7 +113,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ProfileRoute: typeof ProfileRoute
+  TermsOfServiceRoute: typeof TermsOfServiceRoute
   ApiPublicAuthCallbackRoute: typeof ApiPublicAuthCallbackRoute
   ApiPublicAuthLoginRoute: typeof ApiPublicAuthLoginRoute
   ApiPublicAuthLogoutRoute: typeof ApiPublicAuthLogoutRoute
@@ -104,11 +130,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/auth/callback': {
@@ -137,7 +177,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ProfileRoute: ProfileRoute,
+  TermsOfServiceRoute: TermsOfServiceRoute,
   ApiPublicAuthCallbackRoute: ApiPublicAuthCallbackRoute,
   ApiPublicAuthLoginRoute: ApiPublicAuthLoginRoute,
   ApiPublicAuthLogoutRoute: ApiPublicAuthLogoutRoute,
