@@ -10,6 +10,6 @@
 - [x] Add a signed dashboard API to the existing Render bot, using its existing Discord token as an HMAC key without transmitting the token.
 - [x] Connect dashboard creation, active giveaway/drop lists, details, counts, ending and participant removal to the Render bot.
 - [x] Supply the updated bot.py for deployment to the user's GitHub/Render service.
-- [ ] Deploy the updated bot.py, configure DISCORD_BOT_API_URL with the public Render URL, and verify the live flow — blocked on user deployment and the Render URL.
+- [x] Deploy the updated bot.py, configure DISCORD_BOT_API_URL, and verify the live flow (confirmed by the user).
 - [x] Verify authorization tests, public login interface and rejection of invalid OAuth state (7 tests passed).
 - [ ] Verify server/channel selection inside a real Discord account — blocked on an active Discord login; Cloud sessions cannot substitute for Discord OAuth.
