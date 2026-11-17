@@ -3,6 +3,10 @@ import { getMe } from "@/lib/auth.functions";
 import { getDiscordGuilds } from "@/lib/discord.functions";
 import { DiscordDashboard } from "@/components/discord-dashboard";
 import brandImage from "@/assets/giveawaysomething-logo.png.asset.json";
+import tourWide from "@/assets/site-tour-wide.mp4.asset.json";
+import tourTall from "@/assets/site-tour-tall.mp4.asset.json";
+import tourWidePoster from "@/assets/site-tour-wide-poster.jpg.asset.json";
+import tourTallPoster from "@/assets/site-tour-tall-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,7 +58,7 @@ function Login() {
       <main className="mx-auto max-w-5xl px-5 pb-20">
         <section className="flex flex-col items-center py-16 text-center">
           <img src={brandImage.url} alt="GiveawaySomething — colorful gift box" width={268} height={268} className="mb-8 h-40 w-40 rounded-xl object-contain shadow-glow sm:h-48 sm:w-48" />
-          <h1 className="text-gradient font-display text-5xl font-black tracking-tight sm:text-7xl">GiveawaySomething</h1>
+          <h1 className="text-gradient font-display text-[clamp(1.75rem,8.5vw,4.5rem)] font-black tracking-tight">GiveawaySomething</h1>
           <p className="mt-5 max-w-md text-lg text-muted-foreground">The ultimate giveaway & quick-drop bot for your Discord server.</p>
           <a href="/api/public/auth/login" className="mt-10 inline-flex items-center gap-3 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:brightness-110">
             <DiscordIcon className="h-6 w-6" /> Login with Discord
@@ -67,6 +71,28 @@ function Login() {
             GiveawaySomething is a Discord bot that runs giveaways and instant prize drops in your server. Reward your members,
             grow engagement and celebrate milestones — all in a few clicks.
           </p>
+        </section>
+
+        <section className="mt-10" aria-labelledby="tour-heading">
+          <h2 id="tour-heading" className="mb-5 text-center font-display text-2xl font-bold">See it in action</h2>
+          <div className="glass overflow-hidden rounded-xl p-2">
+            <video
+              className="hidden aspect-video w-full rounded-lg sm:block"
+              src={tourWide.url}
+              poster={tourWidePoster.url}
+              controls
+              playsInline
+              preload="none"
+            />
+            <video
+              className="mx-auto block aspect-[9/16] w-full max-w-sm rounded-lg sm:hidden"
+              src={tourTall.url}
+              poster={tourTallPoster.url}
+              controls
+              playsInline
+              preload="none"
+            />
+          </div>
         </section>
 
         <section className="mt-10">
